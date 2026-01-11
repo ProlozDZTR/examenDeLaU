@@ -23,7 +23,7 @@ struct Equipo {
 
 // --- PROTOTIPOS ---
 void generarEvento(struct Equipo *equipos);
-void generarResultado(struct Equipo *equipos, int beneficiado);
+void generarResultado(struct Equipo *equipos, int beneficiado, int perjudicado);
 
 struct Equipo *asignarMemoria(int cuantos) {
 
@@ -78,12 +78,13 @@ void generarEvento(struct Equipo *equipos) {
         case 5:
             printf("¡Penalti para %s!\n", equipos[0].nombre);
             (equipos[0].estadisticas->penaltis)++;
-            generarResultado(equipos, 0); // 0 es el equipo beneficiado
+            generarResultado(equipos, 0, 1); // 0 es el equipo beneficiado
+
             break;
         case 6:
             printf("¡Penalti para %s!\n", equipos[1].nombre);
             (equipos[1].estadisticas->penaltis)++;
-            generarResultado(equipos, 1);
+            generarResultado(equipos, 1, 0);
             break;
         case 7:
             printf("Tiro de esquina con gol para %s.\n", equipos[0].nombre);
@@ -98,14 +99,50 @@ void generarEvento(struct Equipo *equipos) {
     }
 }
 
-void generarResultado(struct Equipo *equipos, int beneficiado) {
-    int chance = rand() % 4 + 1;
-    if (chance != 2) { // 75% de probabilidad de anotar
-        printf(" -> %s ANOTA el penalti.\n", equipos[beneficiado].nombre);
+void generarResultado(struct Equipo *equipos, int beneficiado, int perjudicado) {
+    int chanceBen = rand() % 4 + 0;
+    int chancePer = rand() % 4 + 0;
+     switch (chanceBen){
+     case 1:
+        printf("El equipo: %s anota el penalti",equipos[beneficiado].nombre);
         (equipos[beneficiado].estadisticas->goles)++;
-    } else {
-        printf(" -> %s FALLA el penalti.\n", equipos[beneficiado].nombre);
-    }
+        (equipos[beneficiado].estadisticas->penaltis)++;
+    break;
+    case 2:
+    printf("El equipo: %s falla el penalti",equipos[beneficiado].nombre);
+       (equipos[beneficiado].estadisticas->penaltis)++;
+    break;
+    case 3:
+        printf("El equipo: %s anota el penalti",equipos[beneficiado].nombre);
+        (equipos[beneficiado].estadisticas->goles)++;
+        (equipos[beneficiado].estadisticas->penaltis)++;
+    break;
+    case 4:
+         printf("El equipo: %s falla el penalti",equipos[beneficiado].nombre);
+       (equipos[beneficiado].estadisticas->penaltis)++;
+
+    break; }
+     switch (chancePer){
+    case 1:
+        printf("El equipo: %s recibe una tarjeta roja",equipos[perjudicado].nombre);
+        (equipos[perjudicado].estadisticas->tarjetaRoja)++;
+
+    break;
+    case 2:
+        printf("El equipo: %s recibe una tarjeta amarilla",equipos[perjudicado].nombre);
+        (equipos[perjudicado].estadisticas->tarjetaAmarilla)++;
+    break;
+    case 3:
+        printf("El equipo: %s recibe una tarjeta amarilla",equipos[perjudicado].nombre);
+        (equipos[perjudicado].estadisticas->tarjetaAmarilla)++;
+
+    break;
+    case 4:
+        printf("El equipo: %s recibe una tarjeta roja",equipos[perjudicado].nombre);
+        (equipos[perjudicado].estadisticas->tarjetaRoja)++;
+
+    break;
+     }
 }
 
 void generarTotalEventos(struct Equipo *equipos) {
@@ -115,15 +152,29 @@ void generarTotalEventos(struct Equipo *equipos) {
         generarEvento(equipos);
     }
 }
+void mostrarResultados(struct Equipo *equipos){
+    printf("\n--- RESULTADO FINAL ---\n");
+    printf("%s:Goles %d\n", equipos[0].nombre, equipos[0].estadisticas->goles);
+    printf("%s:Goles%d\n", equipos[1].nombre, equipos[1].estadisticas->goles);
+    printf("%s:tarjetas Amarillas %d\n", equipos[0].nombre, equipos[0].estadisticas->tarjetaAmarilla);
+    printf("%s:tarjetas Amarillas %d\n", equipos[1].nombre, equipos[1].estadisticas->tarjetaAmarilla);
+    printf("%s:tarjetas Rojas %d\n", equipos[0].nombre, equipos[0].estadisticas->tarjetaRoja);
+    printf("%s:tarjetas Rojas %d\n", equipos[1].nombre, equipos[1].estadisticas->tarjetaRoja);
+    printf("%s:penaltis %d\n", equipos[0].nombre, equipos[0].estadisticas->penaltis);
+    printf("%s:penaltis %d\n", equipos[1].nombre, equipos[1].estadisticas->penaltis);
+    printf("%s:fuera De Juego%d\n", equipos[0].nombre, equipos[0].estadisticas->fueraDeJuego);
+    printf("%s:fuera De Juego%d\n", equipos[1].nombre, equipos[1].estadisticas->fueraDeJuego);   
+    printf("%s:tiros de esquina con gol %d\n", equipos[0].nombre, equipos[0].estadisticas->tirosDeEsquinaConGol);
+    printf("%s:tiros de esquina con gol %d\n", equipos[1].nombre, equipos[1].estadisticas->tirosDeEsquinaConGol);
+}
 
 void ejecutarPrograma() {
     struct Equipo *equipos = asignarMemoria(2);
     cargarEquipos(equipos);
     generarTotalEventos(equipos);
+    mostrarResultados(equipos);
     
-    printf("\n--- RESULTADO FINAL ---\n");
-    printf("%s: %d\n", equipos[0].nombre, equipos[0].estadisticas->goles);
-    printf("%s: %d\n", equipos[1].nombre, equipos[1].estadisticas->goles);
+    
 }
 
 int main() {
