@@ -70,14 +70,14 @@ for (int i = 0; i < totalEventos; i++)
 	generarEvento();	
 }
 }
-void generarEvento(struct Equipo *equipos){
+void generarEvento(struct Equipo equipos){
 int Eventos = rand () % NUMEV + 1;
 switch (Eventos){
 case 1:
-printf("El equipo: %s ha anotado un gol\n",);
+printf("El equipo: %s ha anotado un gol\n", equipos.nombre);
 break;
 case 2:
-
+printf("El equipo: %s ha anotado un gol\n", *(equipos.nombre)+1);
 break;
 case 3:
 
