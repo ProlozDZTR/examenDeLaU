@@ -55,7 +55,12 @@ struct Equipo
 	struct Estadisticas *estadisticas;
 	
 };
-
+void cargarEquipos (struct Equipo *equipos){
+	printf("Introduzca el nombre del primer equipo:");
+	fgets((equipos+1)->nombre,30,stdin);
+	printf("Introduzca el nombre del segundo equipo:");
+	fgets((equipos+2)->nombre,30,stdin);
+}
 
 
 void generarTotalEventos(){
@@ -65,8 +70,7 @@ for (int i = 0; i < totalEventos; i++)
 	generarEvento();	
 }
 }
-void generarEvento(){
-
+void generarEvento(struct Equipo *equipos){
 int Eventos = rand () % NUMEV + 1;
 switch (Eventos){
 case 1:
