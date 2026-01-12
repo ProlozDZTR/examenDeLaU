@@ -87,7 +87,7 @@ void ejecutarPrograma(){
     mostrarResultados(&monedas);
 
     // Pedir datos del archivo dentro de la misma funcion para que las variables existan
-    printf("Dame el path del archivo (ejemplo: ./ ): ");
+    printf("Dame el path del archivo: ");
     fgets(path, 100, stdin);
     path[strcspn(path, "\n")] = 0; // Quitar el salto de linea de fgets
 
