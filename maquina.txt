@@ -1,0 +1,5 @@
+Resultados del cambio para: 1.85
+Monedas de 50 centavos: 3
+Monedas de 20 centavos: 1
+Monedas de 10 centavos: 1
+Monedas de  5 centavos: 1

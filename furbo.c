@@ -45,6 +45,38 @@ struct Equipo *asignarMemoria(int cuantos) {
     return equipos; // FALTABA EL RETURN
 }
 
+FILE *abrirArchivo(char path[],char nombreArchivo[], char modo[]){
+    char tempPath[100];
+    strcpy(tempPath,path);
+    strcat(tempPath, nombreArchivo);
+    return fopen(tempPath,modo);
+}
+
+void guardarEnArchivo(struct Equipo *equipos, int limite, char path[],char nombre[]){
+    FILE *file = abrirArchivo(path, nombre, "w");
+    if(file == NULL) return;
+
+    //AQUI VA TODO EL DESMADRE DE RESULTADOS
+    fprintf(file, "Resultados del partido");
+
+    fprintf(file,"\n--- RESULTADO FINAL ---\n");
+    fprintf(file,"%s:Goles %d\n", equipos[0].nombre, equipos[0].estadisticas->goles);
+    fprintf(file,"%s:Goles%d\n", equipos[1].nombre, equipos[1].estadisticas->goles);
+    fprintf(file,"%s:tarjetas Amarillas %d\n", equipos[0].nombre, equipos[0].estadisticas->tarjetaAmarilla);
+    fprintf(file,"%s:tarjetas Amarillas %d\n", equipos[1].nombre, equipos[1].estadisticas->tarjetaAmarilla);
+    fprintf(file,"%s:tarjetas Rojas %d\n", equipos[0].nombre, equipos[0].estadisticas->tarjetaRoja);
+    fprintf(file,"%s:tarjetas Rojas %d\n", equipos[1].nombre, equipos[1].estadisticas->tarjetaRoja);
+    fprintf(file,"%s:penaltis %d\n", equipos[0].nombre, equipos[0].estadisticas->penaltis);
+    fprintf(file,"%s:penaltis %d\n", equipos[1].nombre, equipos[1].estadisticas->penaltis);
+    fprintf(file,"%s:fuera De Juego%d\n", equipos[0].nombre, equipos[0].estadisticas->fueraDeJuego);
+    fprintf(file,"%s:fuera De Juego%d\n", equipos[1].nombre, equipos[1].estadisticas->fueraDeJuego);   
+    fprintf(file,"%s:tiros de esquina con gol %d\n", equipos[0].nombre, equipos[0].estadisticas->tirosDeEsquinaConGol);
+    fprintf(file,"%s:tiros de esquina con gol %d\n", equipos[1].nombre, equipos[1].estadisticas->tirosDeEsquinaConGol);
+
+}
+
+
+
 void cargarEquipos(struct Equipo *equipos) {
     printf("Introduzca el nombre del primer equipo: ");
     fgets(equipos[0].nombre, 30, stdin);
@@ -173,6 +205,13 @@ void ejecutarPrograma() {
     cargarEquipos(equipos);
     generarTotalEventos(equipos);
     mostrarResultados(equipos);
+    char path[100],nombreArch[100];
+    printf("Dame el path del archivo: ");
+    fgets(path, 100, stdin);
+    printf("Dame el nombre del archivo con el que lo quieres guardar");
+    fgets(nombreArch,100,stdin);
+
+    guardarEnArchivo(equipos,2,path,nombreArch);
     
     
 }
